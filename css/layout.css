@@ -27,7 +27,11 @@
      the same measure and gutter the column uses, so the two cannot come apart
      as the window changes. */
   right: calc(50% + var(--maxw) / 2 - var(--gutter) + 2.5rem);
-  width: 10rem;
+  /* Wide enough that the current label — set at 1.5rem, and as long as
+     "Publicaciones" — still ends inside the column. At 10rem it ran past the
+     right edge and spent the gap above, leaving the one label that is meant to
+     be read sitting almost against the text. */
+  width: 12.5rem;
   padding-left: 2rem; /* the lane the section marker sits in */
   z-index: 20;
   display: flex;
@@ -165,15 +169,56 @@
   margin-top: 0;
 }
 
-/* Light / dark switch: a bare control, like the rest of the rail. Which icon
-   shows is driven entirely by `aria-pressed`, so the accessibility state and
-   the visual state cannot disagree. */
+/* ---------- The two switches ----------
+
+   Language and theme sit together on one row, in both layouts, so the
+   language is always to the left of the sun and the moon. Both are bare
+   controls, like the rest of the rail: the muted ink of the labels above
+   them, coming up to full ink for the one that is current. Which state shows
+   is driven entirely by `aria-pressed` on each, so what a screen reader is
+   told and what is drawn cannot disagree. */
+
+.site-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: -0.15rem; /* cancels the first label's padding, so the row
+                            starts on the same edge as the menu above it */
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.lang-option {
+  padding: 0.2rem 0.15rem;
+  color: inherit;
+  letter-spacing: 0.03em; /* two capitals, read as a pair rather than a word */
+  transition: color var(--t-fast);
+}
+
+.lang-option:hover {
+  color: var(--ink);
+}
+
+.lang-option[aria-pressed="true"] {
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+/* A divider, not a character to be read: faint enough to separate the two
+   labels without joining them into one word. */
+.lang-sep {
+  opacity: 0.4;
+}
+
 .theme-toggle {
   display: grid;
   place-items: center;
   width: 1.75rem;
   height: 1.75rem;
-  margin-left: -0.35rem; /* optically aligns the glyph with the labels */
   color: inherit;
   transition: color var(--t-fast);
 }
@@ -199,13 +244,13 @@
 /* ---------- The rail, laid down ----------
 
    The rail needs its lane for the marker plus the labels plus the gap to the
-   text — about 200px — and the margin stops clearing that, measured, just
+   text — about 270px, measured — and the margin stops clearing that just
    below this width. Under it the rail lies down and floats across the top — the one place a menu can sit without taking width
    from the reading column. There it does pass over the text, so it needs a
    surface of its own, and the active entry cannot grow without shoving the
    others sideways: it takes a tinted pill instead. */
 
-@media (max-width: 71em) {
+@media (max-width: 77em) {
   .panel-body {
     padding-block: calc(var(--header-h) + 1.25rem) 1.5rem;
   }
@@ -266,12 +311,18 @@
     background-color: color-mix(in srgb, var(--accent) 12%, var(--paper));
   }
 
-  .theme-toggle {
+  /* The rule that keeps the switches off the menu moves to the row that holds
+     them both, so it is drawn once, to the left of the language. */
+  .site-tools {
     flex: none;
+    margin-left: 0.15rem;
+    padding-left: 0.4rem;
+    border-left: var(--hairline) solid var(--line);
+  }
+
+  .theme-toggle {
     width: 2rem;
     height: 2rem;
-    margin-left: 0.15rem;
-    border-left: var(--hairline) solid var(--line);
   }
 }
 

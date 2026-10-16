@@ -4,9 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Samuel Bustamante Larriet — Semantic Web &amp; Knowledge Graphs</title>
-  <meta name="description" content="Personal site of Samuel Bustamante Larriet: research and engineering on ontologies, knowledge graphs and linked data.">
-  <meta name="author" content="Samuel Bustamante Larriet">
+  <!--
+    The page is bilingual: the markup is written in English, and js/i18n.js
+    rewrites every element carrying a `data-i18n*` key into the visitor's
+    language before the first paint. English is therefore both a language and
+    the fallback — with scripting off the page still reads in full, in it.
+    `lang` on <html> above is kept in step by that script.
+  -->
+  <title data-i18n="meta.title">Samuel Bustamante-Larriet — Semantic Web &amp; Knowledge Graphs</title>
+  <meta name="description" data-i18n-content="meta.description"
+        content="Personal site of Samuel Bustamante-Larriet: PhD student in Computer Science at the University of Oviedo, working on knowledge graphs and linked data.">
+  <meta name="author" content="Samuel Bustamante-Larriet">
+
+  <!--
+    The tab icon is the same graph that marks the current section in the menu,
+    drawn from img/mark.svg so the one shape serves both. The PNG beside it is
+    the fallback for browsers that will not take an SVG icon; the SVG is
+    listed first, and any browser that understands it never asks for the PNG.
+  -->
+  <link rel="icon" href="img/mark.svg" type="image/svg+xml">
+  <link rel="icon" href="img/mark.png" sizes="32x32" type="image/png">
 
   <!--
     Stylesheet order matters, each layer builds on the previous one:
@@ -31,10 +48,11 @@
 
 <body>
   <!-- Keyboard-only shortcut past the navigation; visible only while focused. -->
-  <a class="skip-link" href="#top">Skip to content</a>
+  <a class="skip-link" href="#top" data-i18n="a11y.skip">Skip to content</a>
 
   <!--
-    Floating capsule header: the mark, the section links, the theme switch.
+    Floating capsule header: the mark, the section links, the language switch
+    and the theme switch.
   -->
   <header class="site-header">
     <!--
@@ -64,7 +82,7 @@
     </span>
 
     <!--
-      Section navigation. Four entries for six panels: experience and education
+      Section navigation. Four entries for seven panels: experience and education
       are the two panels of the About section, so both carry `data-nav="about"`
       and the About link — which names the same section, and so stays lit
       across both — opens on the first of them. js/main.js matches the two by
@@ -72,36 +90,54 @@
       pill behind it. Plain in-page anchors, so the menu still works with
       JavaScript disabled.
     -->
-    <nav class="site-nav" aria-label="Sections">
+    <nav class="site-nav" aria-label="Sections" data-i18n-aria-label="a11y.sections">
       <ul>
-        <li><a href="#experience" data-nav="about">About</a></li>
-        <li><a href="#publications" data-nav="publications">Publications</a></li>
-        <li><a href="#projects" data-nav="projects">Projects</a></li>
-        <li><a href="#contact" data-nav="contact">Contact</a></li>
+        <li><a href="#experience" data-nav="about" data-i18n="nav.about">About</a></li>
+        <li><a href="#publications" data-nav="publications" data-i18n="nav.publications">Publications</a></li>
+        <li><a href="#projects" data-nav="projects" data-i18n="nav.projects">Projects</a></li>
+        <li><a href="#contact" data-nav="contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
     </nav>
 
     <!--
-      Light/dark switch. `aria-pressed` is both the accessibility state and the
-      CSS hook that decides which icon shows; js/main.js keeps it in sync.
+      The two switches, as one row in both layouts, so the language sits to the
+      left of the sun and the moon wherever the header is.
     -->
-    <button class="theme-toggle" type="button" aria-label="Toggle dark theme" aria-pressed="false">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M20.5 14.2A8.5 8.5 0 1 1 11.3 3.5a6.6 6.6 0 0 0 9.2 10.7Z"/>
-      </svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <circle cx="12" cy="12" r="4.2"/>
-        <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/>
-      </svg>
-    </button>
+    <div class="site-tools">
+      <!--
+        Language. Two bare labels rather than one toggle: the language you are
+        not in is a destination, not a state, and spelling both out is what
+        tells a visitor the Spanish exists at all. js/i18n.js keeps
+        `aria-pressed` on the current one, which is also the styling hook.
+      -->
+      <div class="lang-switch" role="group" aria-label="Language" data-i18n-aria-label="a11y.language">
+        <button class="lang-option" type="button" data-lang="es" aria-pressed="false">ES</button>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <button class="lang-option" type="button" data-lang="en" aria-pressed="true">EN</button>
+      </div>
+
+      <!--
+        Light/dark switch. `aria-pressed` is both the accessibility state and the
+        CSS hook that decides which icon shows; js/main.js keeps it in sync.
+      -->
+      <button class="theme-toggle" type="button" aria-label="Toggle dark theme"
+              data-i18n-aria-label="a11y.theme" aria-pressed="false">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20.5 14.2A8.5 8.5 0 1 1 11.3 3.5a6.6 6.6 0 0 0 9.2 10.7Z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <!-- =========================================================
        Opening screen — panel 1. Not a section: no heading, no menu
-       entry, nothing but the name and what I do.
-       TODO: replace the copy below with your own.
+       entry, nothing but the name, what I do, where I am and why.
        ========================================================= -->
   <section class="panel" id="top">
     <div class="panel-body">
@@ -116,27 +152,51 @@
       -->
       <div class="intro">
         <img class="portrait" src="img/portrait.jpg" width="512" height="512"
-             alt="Samuel Bustamante Larriet" fetchpriority="high" decoding="async">
-        <h1>Samuel Bustamante Larriet</h1>
+             alt="Samuel Bustamante-Larriet" fetchpriority="high" decoding="async">
+        <h1>Samuel Bustamante-Larriet</h1>
       </div>
-      <p class="lead">
-        PhD candidate working on ontologies, knowledge graphs and the ways
-        language models can be grounded in them.
+
+      <p class="lead role" data-i18n="hero.role">PhD student in Computer Science</p>
+
+      <!--
+        Where I am. The pin is what makes the line read as a place at a glance,
+        so it carries no label of its own — the text beside it is the label,
+        and the icon is hidden from the accessibility tree rather than
+        announced before every reading of it.
+      -->
+      <p class="place">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M12 21.3c3.9-3.9 6-7 6-9.6a6 6 0 1 0-12 0c0 2.6 2.1 5.7 6 9.6Z"/>
+          <circle cx="12" cy="11.4" r="2.4"/>
+        </svg>
+        <span data-i18n="hero.place">Oviedo, Asturias, Spain</span>
       </p>
+
       <div class="prose">
-        <p>
-          I build vocabularies and query pipelines that keep meaning explicit —
-          RDF, OWL and SPARQL as engineering tools rather than paperwork.
+        <p data-i18n-rich="hero.p1">
+          I am fascinated by knowledge representation, and in particular by
+          knowledge graph technologies and how they hold up when applied to
+          real problems.
         </p>
-        <p>
-          Most of my work sits between a research group and the systems that
-          have to run its results in production.
+        <p data-i18n-rich="hero.p2">
+          I am currently a PhD student in Computer Science at the
+          <a href="https://www.uniovi.es/en/" rel="noopener">University of Oviedo</a>,
+          in my first year (since Oct 2026), on a full-time research
+          contract with the
+          <a href="https://www.weso.es/" rel="noopener">WESO</a> (Web Semantics
+          Oviedo) research group, where one of my main responsibilities is the
+          development and maintenance of
+          <a href="https://rudof-project.github.io/" rel="noopener">rudof</a>, an open
+          source library written in Rust that provides tooling for the knowledge
+          graph ecosystem.
         </p>
       </div>
     </div>
 
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-down" href="#experience" aria-label="Down to experience">
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-down" href="#experience" aria-label="Down to experience"
+         data-i18n-aria-label="a11y.down.experience">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 9l7 7 7-7"/>
@@ -148,76 +208,62 @@
   <!-- =========================================================
        About — panels 2 and 3. One section, two screens: experience,
        then education. Each <li> renders as a timeline node joined by a
-       vertical edge.
+       vertical edge. Newest first, which is the order these are read in.
        ========================================================= -->
   <section class="panel" id="experience" data-nav="about">
     <div class="panel-body">
-      <h2>Experience</h2>
+      <h2 data-i18n="exp.title">Experience</h2>
 
       <ul class="timeline">
         <li>
-          <p class="date">2024 — present</p>
-          <h3>Research Assistant</h3>
-          <p>Research group, University</p>
-          <p>Ontology design and SPARQL pipelines for a domain knowledge graph.</p>
+          <p class="date" data-i18n="exp.weso.date">Jan 2026 - present</p>
+          <h3 data-i18n="exp.weso.role">Research Technician</h3>
+          <p data-i18n-rich="exp.weso.org">
+            <a href="https://www.weso.es/" rel="noopener">WESO</a>
+            (Web Semantics Oviedo),
+            <a href="https://www.uniovi.es/en/" rel="noopener">University of Oviedo</a>
+          </p>
+          <p data-i18n-rich="exp.weso.desc">
+            Development and maintenance of
+            <a href="https://rudof-project.github.io/" rel="noopener">rudof</a>,
+            an open source library written in Rust that provides tooling for the
+            knowledge graph ecosystem.
+          </p>
         </li>
         <li>
-          <p class="date">2023 — 2024</p>
-          <h3>Data Engineer, intern</h3>
-          <p>Company name</p>
-          <p>Entity reconciliation against Wikidata and DBpedia dumps.</p>
+          <p class="date" data-i18n="exp.intern.date">Oct 2025 - Nov 2025</p>
+          <h3 data-i18n="exp.intern.role">Research Intern</h3>
+          <p data-i18n="exp.intern.org">WESO, University of Oviedo</p>
+          <p data-i18n="exp.intern.desc">
+            Implementation of an MCP server, and a first in-depth look at
+            Semantic Web technologies.
+          </p>
+        </li>
+        <li>
+          <p class="date" data-i18n="exp.babel.date">Jan 2025 - Apr 2025</p>
+          <h3 data-i18n="exp.babel.role">Intern</h3>
+          <!-- The name is the same in both languages; the address behind it is
+               not, which is why it still carries a key. -->
+          <p data-i18n-rich="exp.babel.org">
+            <a href="https://babelgroup.com/en/" rel="noopener">Babel</a>
+          </p>
+          <p data-i18n="exp.babel.desc">
+            Internship at an international consultancy, building on the .NET stack.
+          </p>
         </li>
       </ul>
     </div>
 
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-up" href="#top" aria-label="Up to the top">
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#top" aria-label="Up to the top"
+         data-i18n-aria-label="a11y.up.top">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 15l7-7 7 7"/>
         </svg>
       </a>
-      <a class="pager-down" href="#education" aria-label="Down to education">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M5 9l7 7 7-7"/>
-        </svg>
-      </a>
-    </nav>
-  </section>
-
-  <section class="panel" id="education" data-nav="about">
-    <div class="panel-body">
-      <h2>Education</h2>
-
-      <ul class="timeline">
-        <li>
-          <p class="date">2024 — present</p>
-          <h3>PhD in Computer Science</h3>
-          <p>University</p>
-          <p>Knowledge graph representation and language models.</p>
-        </li>
-        <li>
-          <p class="date">2022 — 2024</p>
-          <h3>MSc in Artificial Intelligence</h3>
-          <p>University</p>
-        </li>
-        <li>
-          <p class="date">2018 — 2022</p>
-          <h3>BSc in Software Engineering</h3>
-          <p>University</p>
-        </li>
-      </ul>
-    </div>
-
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-up" href="#experience" aria-label="Up to experience">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M5 15l7-7 7 7"/>
-        </svg>
-      </a>
-      <a class="pager-down" href="#publications" aria-label="Down to publications">
+      <a class="pager-down" href="#education" aria-label="Down to education"
+         data-i18n-aria-label="a11y.down.education">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 9l7 7 7-7"/>
@@ -227,86 +273,222 @@
   </section>
 
   <!-- =========================================================
-       Publications — panel 5
+       Education — the second About panel. Newest first, like the one
+       above it. Each degree links to its own official page. The university
+       and the school are named by every entry that applies but linked once
+       each — on the doctorate and on the master's — because a column of the
+       same two links repeated says three times what one says once.
+       ========================================================= -->
+  <section class="panel" id="education" data-nav="about">
+    <div class="panel-body">
+      <h2 data-i18n="edu.title">Education</h2>
+
+      <ul class="timeline">
+        <li>
+          <p class="date" data-i18n="edu.phd.date">Oct 2026 - present</p>
+          <h3 data-i18n-rich="edu.phd.degree">
+            <a href="https://www.uniovi.es/en/estudia/doctorado/ingenieriayarquitectura/informatica"
+               rel="noopener">PhD in Computer Science</a>
+          </h3>
+          <p data-i18n-rich="edu.phd.where">
+            <a href="https://www.uniovi.es/en/" rel="noopener">University of Oviedo</a>
+          </p>
+          <p data-i18n="edu.phd.desc">
+            Research line: Semantic Web. The subject is still to be
+            decided; I am exploring the idea of &ldquo;Declarative data
+            transformations in knowledge graphs&rdquo;.
+          </p>
+        </li>
+        <li>
+          <p class="date" data-i18n="edu.msc.date">Sep 2025 - Jul 2026</p>
+          <h3 data-i18n-rich="edu.msc.degree">
+            <a href="https://miw.uniovi.es/" rel="noopener">Master's Degree in Web Engineering</a>,
+            research track
+          </h3>
+          <p data-i18n-rich="edu.msc.where">
+            University of Oviedo,
+            <a href="https://ingenieriainformatica.uniovi.es/" rel="noopener">EII</a>
+          </p>
+          <p data-i18n="edu.msc.desc">
+            Web systems end to end: web standards and computing, site
+            architecture, web services, secure server administration,
+            databases, cloud computing, user interfaces, user
+            experience, mobile applications, data science, big data, the
+            Semantic Web, strategic planning, business models,
+            e-commerce. The research track adds research methodology and
+            the writing of scientific publications; an external
+            placement and the final project close it.
+          </p>
+        </li>
+        <li>
+          <p class="date" data-i18n="edu.bsc.date">Sep 2021 - Jul 2025</p>
+          <h3 data-i18n-rich="edu.bsc.degree">
+            <a href="https://www.uniovi.es/en/estudia/grados/ingenieria/informaticasoftware"
+               rel="noopener">Bachelor's Degree in Software Engineering</a>
+          </h3>
+          <p data-i18n="edu.bsc.where">University of Oviedo, EII</p>
+          <p data-i18n="edu.bsc.desc">
+            The foundations of computing: the theory of computation,
+            programming, data structures, algorithms, language design,
+            computer technology and architecture, operating systems,
+            networks, systems administration, distributed systems,
+            databases, information repositories, web standards and
+            development, human-computer interaction, intelligent
+            systems, security. On that ground, the whole software
+            engineering cycle: process, requirements, design,
+            architecture, quality and verification, project management,
+            the business, legal and ethical setting the work is done in.
+            The electives taken were computer forensics and auditing,
+            mobile software and enterprise application integration; an
+            industry placement and the final project close it.
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#experience" aria-label="Up to experience"
+         data-i18n-aria-label="a11y.up.experience">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 15l7-7 7 7"/>
+        </svg>
+      </a>
+      <a class="pager-down" href="#publications" aria-label="Down to publications"
+         data-i18n-aria-label="a11y.down.publications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 9l7 7 7-7"/>
+        </svg>
+      </a>
+    </nav>
+  </section>
+
+  <!-- =========================================================
+       Publications — panel 4
        The heading is not the word the menu uses, here or on the two panels
        below: the rail already names the section, and reading the same word
        twice on one screen tells you nothing the second time. Same entry
        pattern as projects: date, title, a line, a row of links.
+
+       Newest first. Titles are not translated — a paper is cited by the title
+       it was published under, in whatever language that was. The line under
+       each one names the authors and says what the venue is, because "ELMKE"
+       or "K-CAP" tells a visitor from outside the field nothing on its own.
+       Where a paper has a public version of record the row points at it (DOI,
+       publisher); where the only copy is ours it points at the PDF in
+       papers/, named <subject>_<VENUE><yy>.pdf.
        ========================================================= -->
   <section class="panel" id="publications" data-nav="publications">
     <div class="panel-body">
-      <h2>Papers</h2>
+      <h2 data-i18n="pub.title">Papers</h2>
 
       <ol class="entries">
         <li>
-          <p class="date">2025</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante, co-author. Venue or journal name.</p>
+          <p class="date" data-i18n="pub.elmke.date">Oct 2026</p>
+          <h3>rudofMCP: A Model Context Protocol Server Exposing Knowledge Graph
+              Engineering Capabilities to Large Language Models</h3>
+          <p data-i18n-rich="pub.elmke.meta">
+            S. Bustamante-Larriet, &Aacute;. Garc&iacute;a-Fern&aacute;ndez,
+            J. E. Labra-Gayo. Paper presented at
+            <a href="https://sites.google.com/view/elmke/2026" rel="noopener">ELMKE 2026</a>,
+            the workshop on the evaluation of language models in knowledge
+            engineering, co-located with
+            <a href="https://iswc2026.semanticweb.org/" rel="noopener">ISWC 2026</a>,
+            the International Semantic Web Conference, in Bari, Italy.
+          </p>
           <p class="links">
-            <a href="https://doi.org/" rel="noopener">DOI</a>
-            <a href="https://example.org/" rel="noopener">PDF</a>
+            <a href="papers/mcp_rudof_ELMKE_ISWC26.pdf">PDF</a>
           </p>
         </li>
         <li>
-          <p class="date">2024</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante, co-author. Workshop name.</p>
+          <p class="date" data-i18n="pub.dmkg.date">Oct 2026</p>
+          <h3>Extending and Optimizing the rudof SHACL validator</h3>
+          <p data-i18n-rich="pub.dmkg.meta">
+            &Aacute;. Garc&iacute;a-Fern&aacute;ndez, S. Bustamante-Larriet,
+            J. E. Labra-Gayo, O. Corcho-Garc&iacute;a. Paper presented at
+            <a href="https://dmkg-workshop.github.io/2026/" rel="noopener">DMKG 2026</a>,
+            the workshop on data management for knowledge graphs, co-located
+            with
+            <a href="https://iswc2026.semanticweb.org/" rel="noopener">ISWC 2026</a>,
+            the International Semantic Web Conference, in Bari, Italy.
+          </p>
           <p class="links">
-            <a href="https://doi.org/" rel="noopener">DOI</a>
+            <a href="papers/shacl_rudof_DMKG26.pdf">PDF</a>
           </p>
         </li>
         <li>
-          <p class="date">2023</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante. Venue name.</p>
+          <p class="date" data-i18n="pub.togomcp.date">Jul 2026</p>
+          <h3>TogoMCP: natural language querying of life-science knowledge graphs
+              via schema-guided LLMs and the Model Context Protocol</h3>
+          <p data-i18n-rich="pub.togomcp.meta">
+            A. R. Kinjo, Y. Yamamoto, S. Bustamante-Larriet, J.-E. Labra-Gayo,
+            T. Fujisawa. Research article in
+            <a href="https://academic.oup.com/database" rel="noopener">Database</a>,
+            the Oxford University Press journal of biological databases and
+            curation. Open access.
+          </p>
           <p class="links">
-            <a href="https://example.org/" rel="noopener">PDF</a>
+            <a href="https://doi.org/10.1093/database/baag042" rel="noopener">DOI</a>
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/instance/13397537/pdf/baag042.pdf"
+               rel="noopener">PDF</a>
           </p>
         </li>
         <li>
-          <p class="date">2023</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante, co-author. Conference name.</p>
+          <p class="date" data-i18n="pub.eswc.date">May 2026</p>
+          <h3>rudof-MCP: A Model Context Protocol Server for Semantic Web Operations</h3>
+          <p data-i18n-rich="pub.eswc.meta">
+            S. Bustamante-Larriet, D. Mart&iacute;n-Fern&aacute;ndez,
+            &Aacute;. Garc&iacute;a-Fern&aacute;ndez, D. Fern&aacute;ndez-&Aacute;lvarez,
+            J. E. Labra-Gayo. Poster and demo presented at
+            <a href="https://2026.eswc-conferences.org/" rel="noopener">ESWC 2026</a>,
+            the European Semantic Web Conference, Dubrovnik, Croatia.
+          </p>
           <p class="links">
-            <a href="https://doi.org/" rel="noopener">DOI</a>
-            <a href="https://example.org/" rel="noopener">PDF</a>
+            <a href="papers/mcp_rudof_ESWC26.pdf">PDF</a>
           </p>
         </li>
         <li>
-          <p class="date">2022</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante, co-author. Journal name.</p>
+          <p class="date" data-i18n="pub.biohack.date">Dec 2025</p>
+          <h3>MCP server tools with RDF shapes</h3>
+          <p data-i18n-rich="pub.biohack.meta">
+            J. E. Labra-Gayo and others, with S. Bustamante-Larriet. Report on
+            the project carried out at the
+            <a href="https://2025.biohackathon.org/" rel="noopener">DBCLS BioHackathon 2025</a>,
+            Mie, Japan, published on BioHackrXiv.
+          </p>
           <p class="links">
-            <a href="https://doi.org/" rel="noopener">DOI</a>
+            <a href="https://doi.org/10.37044/osf.io/8qeh5_v1" rel="noopener">DOI</a>
+            <a href="papers/mcp_shapes_BIOHACKATHON25.pdf">PDF</a>
           </p>
         </li>
         <li>
-          <p class="date">2022</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante. Workshop name.</p>
-          <p class="links">
-            <a href="https://example.org/" rel="noopener">PDF</a>
+          <p class="date" data-i18n="pub.kcap.date">Dec 2025</p>
+          <h3>PG-Schema with Property Constraints validator in rudof</h3>
+          <p data-i18n-rich="pub.kcap.meta">
+            J. E. Labra-Gayo, D. Tomaszuk, D. Mart&iacute;n-Fern&aacute;ndez,
+            S. Bustamante-Larriet, &Aacute;. Garc&iacute;a-Fern&aacute;ndez,
+            D. Fern&aacute;ndez-&Aacute;lvarez. Poster and demo presented at
+            <a href="https://www.k-cap.org/2025/" rel="noopener">K-CAP 2025</a>,
+            the Knowledge Capture Conference, Dayton, Ohio.
           </p>
-        </li>
-        <li>
-          <p class="date">2021</p>
-          <h3>Paper title goes here</h3>
-          <p>S. Bustamante, co-author. Venue name.</p>
           <p class="links">
-            <a href="https://doi.org/" rel="noopener">DOI</a>
+            <a href="papers/pgschema_rudof_KCAP25.pdf">PDF</a>
           </p>
         </li>
       </ol>
     </div>
 
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-up" href="#education" aria-label="Up to education">
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#education" aria-label="Up to education"
+         data-i18n-aria-label="a11y.up.education">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 15l7-7 7 7"/>
         </svg>
       </a>
-      <a class="pager-down" href="#projects" aria-label="Down to projects">
+      <a class="pager-down" href="#projects" aria-label="Down to projects"
+         data-i18n-aria-label="a11y.down.projects">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 9l7 7 7-7"/>
@@ -316,52 +498,53 @@
   </section>
 
   <!-- =========================================================
-       Projects — panel 6
+       Projects — panel 5
+       Same entry pattern as the papers above. A project is not dated the way
+       a paper is: rudof is work in progress, so its date column says so.
        ========================================================= -->
   <section class="panel" id="projects" data-nav="projects">
     <div class="panel-body">
-      <h2>Coding</h2>
+      <h2 data-i18n="proj.title">Coding</h2>
 
       <ul class="entries">
         <li>
-          <p class="date">2025</p>
-          <h3>Project name</h3>
-          <p>
-            One or two sentences on the problem, the approach and the outcome.
-            Say what the project does before naming the stack it uses.
+          <p class="date" data-i18n="proj.rudof.date">Active</p>
+          <h3>rudof</h3>
+          <p data-i18n-rich="proj.rudof.desc">
+            &ldquo;A semantic-less tool for the Semantic Web&rdquo;: an open
+            source library written in Rust that provides tooling for the
+            knowledge graph ecosystem. It is published as Rust crates, chief
+            among them
+            <a href="https://crates.io/crates/rudof_lib" rel="noopener">rudof_lib</a>;
+            as a
+            <a href="https://github.com/rudof-project/rudof/releases/latest"
+               rel="noopener">command line tool</a>, with binaries for Linux,
+            macOS and Windows; as
+            <a href="https://pypi.org/project/pyrudof/" rel="noopener">Python bindings</a>;
+            and as
+            <a href="https://www.npmjs.com/package/@rudof/rudof" rel="noopener">WebAssembly</a>
+            for the browser.
           </p>
           <p class="links">
-            <a href="https://github.com/" rel="noopener">Code</a>
-            <a href="https://example.org/" rel="noopener">Paper</a>
-          </p>
-        </li>
-        <li>
-          <p class="date">2024</p>
-          <h3>Project name</h3>
-          <p>One or two sentences on the problem, the approach and the outcome.</p>
-          <p class="links">
-            <a href="https://github.com/" rel="noopener">Code</a>
-          </p>
-        </li>
-        <li>
-          <p class="date">2023</p>
-          <h3>Project name</h3>
-          <p>One or two sentences on the problem, the approach and the outcome.</p>
-          <p class="links">
-            <a href="https://github.com/" rel="noopener">Code</a>
+            <a href="https://rudof-project.github.io/" rel="noopener"
+               data-i18n="link.site">Website</a>
+            <a href="https://github.com/rudof-project/rudof" rel="noopener"
+               data-i18n="link.code">Code</a>
           </p>
         </li>
       </ul>
     </div>
 
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-up" href="#publications" aria-label="Up to publications">
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#publications" aria-label="Up to publications"
+         data-i18n-aria-label="a11y.up.publications">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 15l7-7 7 7"/>
         </svg>
       </a>
-      <a class="pager-down" href="#contact" aria-label="Down to contact">
+      <a class="pager-down" href="#contact" aria-label="Down to contact"
+         data-i18n-aria-label="a11y.down.contact">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 9l7 7 7-7"/>
@@ -371,26 +554,92 @@
   </section>
 
   <!-- =========================================================
-       Contact — panel 7
+       Contact — panel 6
        The page has no separate footer, so the one line of small print sits
        here. js/main.js fills <time id="year"> with the current year.
        ========================================================= -->
   <section class="panel" id="contact" data-nav="contact">
     <div class="panel-body">
-      <h2>Get in touch</h2>
-      <p class="lead">
-        Happy to talk about ontologies, graph data or collaborations.
+      <h2 data-i18n="contact.title">Get in touch</h2>
+      <p class="lead" data-i18n="contact.lead">
+        Interested in collaborating on a project or exploring professional
+        opportunities? I would like to hear from you.
       </p>
 
+      <!--
+        `rel="me"` on each: it is what lets one profile verify another as the
+        same person. The mark is the network's own, so it carries no label of
+        its own and is hidden from a screen reader, which reads the name beside
+        it instead.
+      -->
       <address class="contact-links">
-        <a href="mailto:samuelbustamantelarriet@gmail.com">Email</a>
-        <a href="https://github.com/" rel="me noopener">GitHub</a>
-        <a href="https://www.linkedin.com/" rel="me noopener">LinkedIn</a>
-        <a href="https://orcid.org/" rel="me noopener">ORCID</a>
-        <a href="https://scholar.google.com/" rel="me noopener">Google Scholar</a>
+        <a href="https://github.com/samuel-bustamante" rel="me noopener">
+          <svg class="brand" viewBox="0 0 24 24" fill="currentColor"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/samuel-bustamante-larriet/" rel="me noopener">
+          <svg class="brand" viewBox="0 0 24 24" fill="currentColor"
+                 aria-hidden="true" focusable="false">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          LinkedIn
+        </a>
+        <a href="https://orcid.org/0009-0005-8631-2682" rel="me noopener">
+          <svg class="brand" viewBox="0 0 24 24" fill="currentColor"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/>
+            </svg>
+          ORCID
+        </a>
       </address>
 
-      <p class="colophon">© <time id="year">2026</time> Samuel Bustamante Larriet</p>
+    </div>
+
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#projects" aria-label="Up to projects"
+         data-i18n-aria-label="a11y.up.projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 15l7-7 7 7"/>
+        </svg>
+      </a>
+      <a class="pager-down" href="#thanks" aria-label="Down to thanks"
+         data-i18n-aria-label="a11y.down.thanks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 9l7 7 7-7"/>
+        </svg>
+      </a>
+    </nav>
+  </section>
+
+  <!-- =========================================================
+       Thanks — panel 7, and the end of the page. A coda, read on the way out
+       rather than navigated to, so it has no entry in the rail and claims
+       none: `data-nav=""` names no section, which leaves the rail up and
+       every label unlit rather than lighting one this panel is not. The
+       colophon moves here with the page's end, since the page still has no
+       separate footer.
+       ========================================================= -->
+  <section class="panel" id="thanks" data-nav="">
+    <div class="panel-body">
+      <h2 data-i18n="thanks.title">Thanks</h2>
+      <p class="lead" data-i18n="thanks.body">
+        Thank you to my parents, Ana and Carmelo, to my sister Gloria and to
+        my partner in life, Teresa, for being a source of energy and constant
+        support.
+      </p>
+
+      <!-- The design credit belongs with the small print, where credits live,
+           rather than inside a dedication to one's family. -->
+      <p class="colophon">
+        © <time id="year">2026</time> Samuel Bustamante-Larriet &middot;
+        <span data-i18n-rich="colophon.credit">Design inspired by the page of my friend
+          <a href="https://gonzalonsofernandez.es/" rel="noopener">Gonzalo Alonso-Fernandez</a></span>
+      </p>
     </div>
 
     <!--
@@ -398,14 +647,16 @@
       back, or all the way out. The double chevron says "to the top" by its
       shape, not only by being the larger of the two.
     -->
-    <nav class="pager" aria-label="Panels">
-      <a class="pager-up" href="#projects" aria-label="Up to projects">
+    <nav class="pager" aria-label="Panels" data-i18n-aria-label="a11y.panels">
+      <a class="pager-up" href="#contact" aria-label="Up to contact"
+         data-i18n-aria-label="a11y.up.contact">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 15l7-7 7 7"/>
         </svg>
       </a>
-      <a class="pager-top" href="#top" aria-label="Back to the top">
+      <a class="pager-top" href="#top" aria-label="Back to the top"
+         data-i18n-aria-label="a11y.top">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M5 18l7-7 7 7M5 11l7-7 7 7"/>
@@ -413,5 +664,12 @@
       </a>
     </nav>
   </section>
+
+  <!--
+    Synchronous, and last: the document above is fully parsed by now, so the
+    page is translated in one pass before the first paint rather than being
+    redrawn in a second language after it.
+  -->
+  <script src="js/i18n.js"></script>
 </body>
 </html>

@@ -85,10 +85,13 @@
   const nav = document.querySelector('.site-nav');
   if (!nav) return;
 
-  // Four menu links for six panels. Both sides name a section through
+  // Four menu links for seven panels. Both sides name a section through
   // `data-nav` rather than through the link's target, which is what lets the
-  // About entry cover two panels while opening on the first of them. The
-  // opening screen names no section, so nothing is marked while it is up.
+  // About entry cover two panels while opening on the first of them. A panel
+  // can also carry no name at all, and the two ways of doing that differ: the
+  // opening screen has no `data-nav`, which stands the rail down entirely,
+  // while the closing one has an empty one, which leaves the rail up with
+  // nothing lit.
   const links = new Map(
     [...nav.querySelectorAll('a[data-nav]')].map((a) => [a.dataset.nav, a]),
   );
@@ -134,13 +137,16 @@
   }
 
   // The rail has nothing to point at while the opening screen is up, so it is
-  // held back until the first real section arrives.
+  // held back until the first real section arrives. What brings it up is the
+  // panel naming a section at all — not the name matching a link — so the
+  // closing panel, which names an empty one, keeps the menu without lighting
+  // any of it.
   function setActive(name) {
     const link = links.get(name);
     if (link && link.hasAttribute('aria-current')) return; // already active
     links.forEach((a) => a.removeAttribute('aria-current'));
 
-    root.classList.toggle('menu-up', Boolean(link));
+    root.classList.toggle('menu-up', name !== undefined);
     placeMark(link);
 
     if (link) {

@@ -72,8 +72,37 @@
   max-width: 34rem;
 }
 
+/* The title under the name, and the place under that. Both belong to the name
+   rather than to the prose below it, so they are set tighter than the
+   paragraph rhythm would put them and the gap before the prose does the
+   separating. */
+.role {
+  margin-bottom: 0;
+}
+
+.place {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  margin-bottom: 0;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* `flex: none` so the pin keeps its size if the place name ever wraps */
+.place svg {
+  flex: none;
+  width: 1.0625rem;
+  height: 1.0625rem;
+}
+
 .prose {
   max-width: 38rem; /* a shorter measure for running prose than for lists */
+}
+
+.panel-body > .prose {
+  margin-top: clamp(1.25rem, 3vh, 1.75rem);
 }
 
 /* ---------- Experience and education: the other two about panels ---------- */
@@ -133,6 +162,16 @@
 
 .timeline h3 {
   margin-top: 0.15rem;
+}
+
+/* An entry title that is also a link keeps the colour of a title: the scale
+   gives each role one colour, and a column of blue headings would read as a
+   list of links rather than as a list of degrees. The underline carries the
+   link instead, in the accent every other link on the page is drawn in, and
+   thickens under the pointer like the rest of them. */
+.timeline h3 a {
+  color: inherit;
+  text-decoration-color: var(--accent);
 }
 
 .timeline p:not([class]) {
@@ -201,12 +240,29 @@
 }
 
 .contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: var(--fs-lead);
 }
 
-/* The one line of small print on the page, parked under the contact details */
+/* A network's own mark, drawn in the ink of the line it sits on rather than in
+   its brand colour: four saturated logos would be the loudest thing on a page
+   that has no other colour in it. Sized in `em`, so it follows the label. */
+.contact-links .brand {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+}
+
+/* The one line of small print on the page, at the foot of the last panel. The
+   page has no <footer> of its own, so the rule above it is what says this line
+   is one: it is the same hairline the contact details hang under, drawn the
+   width of the column. */
 .colophon {
   margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  padding-top: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: var(--hairline) solid var(--line);
   font-size: var(--fs-small);
   color: var(--muted);
 }
