@@ -1,0 +1,212 @@
+/* ==========================================================
+   Sections: what lives inside each panel
+
+   Publications and projects share one pattern — date, title, a line of
+   description, a row of links — so they share one class rather than two
+   near-identical ones.
+   ========================================================== */
+
+/* ---------- Shared text roles (see the table in base.css) ---------- */
+
+/* Secondary — the unclassed <p> selector catches the supporting lines */
+.timeline p:not([class]),
+.entries p:not([class]) {
+  color: var(--ink-2);
+}
+
+/* Section heading */
+.panel-body > h2 {
+  margin-bottom: clamp(1.5rem, 4vh, 3rem);
+}
+
+/* Inside an entry every gap is set by the margin-top rules below, so the
+   paragraph's own bottom margin would only double them up */
+.timeline p,
+.entries p {
+  margin-bottom: 0;
+}
+
+/* ---------- Opening screen and about ---------- */
+
+/* The portrait and the name, side by side. Centred on each other rather than
+   aligned at the top: the circle has no baseline, so hanging it off one would
+   only look like a near miss. The gap and the image shrink with the viewport,
+   and the name wraps inside whatever is left, so the two stay on one row at
+   every width instead of breaking into a stacked arrangement nobody designed. */
+.intro {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 1.75rem);
+}
+
+/* The name now shares its row with the portrait, so it is set one step down
+   from the full display size to keep it to two lines at the measure. Done by
+   overriding the token on this panel rather than by writing a loose
+   font-size: the scale in base.css stays the only place a size is decided. */
+#top {
+  --fs-h1: clamp(2.125rem, 5vw, 3.5rem);
+}
+
+/* A circle, because the one piece of ornament the page already has — the mark
+   in the header — is a graph of circular nodes, so the face reads as another
+   node rather than as a foreign object dropped into a drawn page. */
+.portrait {
+  flex: none; /* a flex item: without this it would give up width to the name */
+  width: clamp(4.5rem, 12vw, 7rem);
+  /* The `height` attribute on the tag is a presentational hint, and a hint is
+     still a declaration: without `auto` here the image would keep its 512px
+     height beside this width and draw as a lens. */
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover; /* the file is already square; this survives a re-crop */
+  /* The same hairline that rules the rest of the page, drawn as a shadow so it
+     sits inside the circle and cannot change the space the image takes. */
+  box-shadow: 0 0 0 var(--hairline) var(--line);
+  background-color: var(--surface); /* what fills the circle until it loads */
+}
+
+/* The lead sits under the row the name is in, not under the name itself */
+.panel-body > .intro + .lead {
+  margin-top: 1.25rem;
+  max-width: 34rem;
+}
+
+.prose {
+  max-width: 38rem; /* a shorter measure for running prose than for lists */
+}
+
+/* ---------- Experience and education: the other two about panels ---------- */
+
+/* Each entry reads as a node joined by an edge: a timeline, which these
+   genuinely are, so the markers carry real information. The edge is one
+   pseudo-element on the list and the nodes are pseudo-elements on the items,
+   so the markup stays clean. */
+.timeline {
+  position: relative;
+  display: grid;
+  gap: clamp(1.25rem, 3.5vh, 2rem);
+}
+
+/* The edge, centred under the nodes */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: calc(0.4375rem - var(--stroke) / 2);
+  top: 0.75rem;
+  bottom: 0;
+  width: var(--stroke);
+  background: var(--line);
+}
+
+/* Cuts the edge off at the last node, so it ends on the final entry rather
+   than trailing past it. A paper-coloured strip painted over the leftover
+   segment, which beats an inset that depends on how that entry wraps. */
+.timeline li:last-child::after {
+  content: "";
+  position: absolute;
+  left: calc(0.4375rem - var(--stroke) / 2);
+  top: 0.75rem;
+  bottom: 0;
+  width: var(--stroke);
+  background: var(--paper);
+}
+
+.timeline li {
+  position: relative;
+  padding-left: 2rem; /* clears the node and its gap */
+}
+
+/* The node: a hollow ring filled with the page background, so the edge behind
+   it is masked rather than showing through */
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4rem; /* aligns with the first line of text, not the box */
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 0.125rem solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.timeline h3 {
+  margin-top: 0.15rem;
+}
+
+.timeline p:not([class]) {
+  margin-top: 0.2rem;
+}
+
+/* ---------- Publications and projects ---------- */
+
+.entries li {
+  padding-block: clamp(0.75rem, 2.5vh, 1.5rem);
+}
+
+.entries li:first-child {
+  padding-top: 0;
+}
+
+.entries li + li {
+  border-top: var(--hairline) solid var(--line);
+}
+
+.entries h3 {
+  margin-top: 0.15rem;
+}
+
+.entries p:not([class]) {
+  margin-top: 0.25rem;
+}
+
+/* ---------- Link rows ---------- */
+
+/* Used under an entry and, larger, as the whole of the contact panel */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.6rem;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+
+/* A link in a row answers the pointer by stepping aside, rather than only by
+   thickening its underline. The nudge goes only on these, never on the entries
+   around them: a thing that moves under the pointer is saying it can be
+   clicked, so moving something inert would be a lie told in motion. */
+.links a,
+.contact-links a {
+  transition:
+    transform var(--t-spring),
+    text-decoration-thickness var(--t-fast);
+}
+
+.links a:hover,
+.contact-links a:hover {
+  transform: translateX(0.2rem);
+}
+
+/* ---------- Contact ---------- */
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  padding-top: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: var(--hairline) solid var(--line);
+}
+
+.contact-links a {
+  font-size: var(--fs-lead);
+}
+
+/* The one line of small print on the page, parked under the contact details */
+.colophon {
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}

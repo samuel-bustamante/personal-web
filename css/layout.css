@@ -1,0 +1,555 @@
+/* ==========================================================
+   Layout: header, the full-height panels and the pager arrows
+
+   The page is one ordinary document, scrolled by the browser. Each section
+   fills at least one screen, so the normal resting state is one section at a
+   time, but nothing forces the scroll to land anywhere: only the menu and the
+   pager arrows jump between panels, and they are plain in-page anchors. One
+   section per panel — nothing is ever set side by side.
+   ========================================================== */
+
+/* ---------- The rail ----------
+
+   Taken from the reference the brief points at: no box, no fill, no border —
+   a column of plain labels sitting in the margin beside the text, muted until
+   one of them is the section you are in, which then grows and comes up to full
+   ink. The growth is the whole of the active state, which is why the labels
+   can afford to carry no decoration at all.
+
+   It is left-aligned inside a fixed-width column, so short labels sit further
+   from the text than long ones. That raggedness is the reference's, and it is
+   what stops the rail reading as a second column of content. */
+
+.site-header {
+  position: fixed;
+  top: 50%;
+  /* The right edge sits a fixed gap from where the text begins, derived from
+     the same measure and gutter the column uses, so the two cannot come apart
+     as the window changes. */
+  right: calc(50% + var(--maxw) / 2 - var(--gutter) + 2.5rem);
+  width: 10rem;
+  padding-left: 2rem; /* the lane the section marker sits in */
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  translate: 0 -50%;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* The opening screen is not a section, so there is nothing for the rail to
+   point at and it stays out of the way until the first one arrives. */
+.site-header {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-move);
+}
+
+.menu-up .site-header {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* The section marker. js/main.js parks it inside whichever entry is current,
+   so it needs no coordinates of its own: it hangs off that entry's left side
+   and follows the label as it grows. Changing section takes it away, moves it,
+   and has it build itself again — edges first, then a node landing on each
+   end. Its resting state is the assembled one, so if the animation never runs
+   the mark is simply there. */
+.mark {
+  position: absolute;
+  right: calc(100% + 0.65rem);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: center;
+  color: var(--accent);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+.mark svg {
+  width: 1.375rem;
+  height: 1.375rem;
+  fill: currentColor;
+}
+
+.mark.is-away {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.mark line {
+  stroke-dasharray: 40;
+}
+
+.mark.is-assembling line {
+  animation: draw 0.6s ease-out 0.05s backwards;
+}
+
+.mark.is-assembling circle {
+  transform-box: fill-box;    /* so `center` means the circle, not the viewBox */
+  transform-origin: center;
+  animation: pop 0.4s cubic-bezier(0.34, 1.5, 0.64, 1) backwards;
+}
+
+.mark.is-assembling circle:nth-of-type(1) { animation-delay: 0.22s; }
+.mark.is-assembling circle:nth-of-type(2) { animation-delay: 0.29s; }
+.mark.is-assembling circle:nth-of-type(3) { animation-delay: 0.36s; }
+.mark.is-assembling circle:nth-of-type(4) { animation-delay: 0.43s; }
+.mark.is-assembling circle:nth-of-type(5) { animation-delay: 0.50s; }
+
+@keyframes draw {
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* The menu scrolls rather than being cut off if it ever runs out of room. The
+   scrollbar is hidden because js/main.js brings the active entry into view. */
+.site-nav {
+  min-width: 0;
+  overflow: visible; /* the marker hangs off the left of its entry */
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.site-nav li {
+  position: relative; /* what the marker inside it hangs from */
+}
+
+.site-nav a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.4;
+  /* Every property the active state changes is listed, so the label grows into
+     place rather than snapping. Colour is the one that moves on the fast curve:
+     it is a change of state, not of size. */
+  transition:
+    font-size var(--t-move),
+    margin var(--t-move),
+    line-height var(--t-move),
+    letter-spacing var(--t-move),
+    color var(--t-fast);
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+}
+
+.site-nav a[aria-current] {
+  margin-block: 0.6rem;
+  font-size: 1.5rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+/* Nothing above the first entry to push away from */
+.site-nav li:first-child a[aria-current] {
+  margin-top: 0;
+}
+
+/* Light / dark switch: a bare control, like the rest of the rail. Which icon
+   shows is driven entirely by `aria-pressed`, so the accessibility state and
+   the visual state cannot disagree. */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-left: -0.35rem; /* optically aligns the glyph with the labels */
+  color: inherit;
+  transition: color var(--t-fast);
+}
+
+.theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle[aria-pressed="true"] .icon-moon {
+  display: none;
+}
+
+.theme-toggle[aria-pressed="true"] .icon-sun {
+  display: block;
+}
+
+/* ---------- The rail, laid down ----------
+
+   The rail needs its lane for the marker plus the labels plus the gap to the
+   text — about 200px — and the margin stops clearing that, measured, just
+   below this width. Under it the rail lies down and floats across the top — the one place a menu can sit without taking width
+   from the reading column. There it does pass over the text, so it needs a
+   surface of its own, and the active entry cannot grow without shoving the
+   others sideways: it takes a tinted pill instead. */
+
+@media (max-width: 71em) {
+  .panel-body {
+    padding-block: calc(var(--header-h) + 1.25rem) 1.5rem;
+  }
+
+  .mark {
+    display: none; /* the marker is a rail device; the capsule has no lane */
+  }
+
+  .site-nav {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header {
+    top: 1rem;
+    right: auto;
+    left: 50%;
+    width: auto;
+    padding-left: 0.3rem;
+    max-width: calc(100% - 2 * var(--gutter));
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    translate: -50% 0;
+    /* Semi-transparent so the blur has something to work with; color-mix keeps
+       the alpha tied to the theme token instead of a hard-coded rgba() */
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--round);
+    font-weight: var(--fw-medium);
+  }
+
+  .site-nav ul {
+    flex-direction: row;
+    gap: 0.15rem;
+  }
+
+  .site-nav a {
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--round);
+    white-space: nowrap; /* a menu item must never break across lines */
+    transition: color var(--t-fast), background-color var(--t-fast);
+  }
+
+  .site-nav a[aria-current] {
+    margin-block: 0;
+    font-size: inherit;
+    font-weight: var(--fw-medium);
+    line-height: inherit;
+    letter-spacing: normal;
+    background-color: color-mix(in srgb, var(--accent) 12%, var(--paper));
+  }
+
+  .theme-toggle {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.15rem;
+    border-left: var(--hairline) solid var(--line);
+  }
+}
+
+@media (max-width: 47.5em) {
+  .site-nav a {
+    padding-inline: 0.6rem;
+  }
+}
+
+/* ---------- Panel ---------- */
+
+.panel {
+  /* A floor, not a fixed height: a panel fills the screen, and a panel with
+     more in it than fits simply grows. That is what keeps every section free
+     of a scrollbar of its own — there is one scrollbar on the page, the
+     browser's.
+     `svh` (small viewport height) rather than `vh`, so mobile browsers don't
+     push the bottom of the panel under their collapsing toolbar. */
+  min-height: 100svh;
+  position: relative; /* anchors the rule drawn above the panel */
+  /* Content takes the free space, the arrows keep their own row at the bottom. */
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* A rule between consecutive panels only — never above the first one.
+   Drawn as a pseudo-element rather than as a border on the panel, because a
+   border would run the full width of the window while every other rule on the
+   page is the width of the text column. The width below resolves to exactly
+   that column: the measure, or the window when it is narrower, less the
+   gutters either side. Absolutely positioned, so it never becomes a grid item
+   of the panel it hangs on. */
+.panel + .panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50%;
+  width: calc(min(100%, var(--maxw)) - 2 * var(--gutter));
+  height: var(--hairline);
+  background: var(--line);
+}
+
+/* One measure and one gutter for the whole page: a single column, left
+   aligned, the same width in every panel so the eye never has to reset. */
+.panel-body {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  /* The rail sits beside the text, so nothing overlaps the top of a panel and
+     the space here is only breathing room. The laid-down layout does float
+     over the heading, and puts the clearance back. */
+  padding-block: 1.5rem;
+  display: grid;
+  align-content: center;
+}
+
+/* ---------- Getting out of the way ----------
+
+   The arrows are a control, not reading matter, and while the page is moving
+   nobody is reaching for them — they were only flickering past the eye as one
+   panel's pair left the screen and the next one's arrived. So they withdraw
+   the moment a scroll starts and come back three seconds after it stops: out
+   quickly, back on the settling curve, which is what makes the return read as
+   deliberate rather than as a flash. js/main.js holds the class.
+
+   The rail does not do this. It is not only a control: it names the section
+   you are in, which is worth more while you are moving than while you are
+   stopped.
+
+   `:focus-within` outranks the lot. Tabbing to an off-screen control scrolls
+   the page to reach it, which would otherwise hide the very thing the keyboard
+   is arriving at. */
+
+.pager {
+  transition: opacity var(--t-move), transform var(--t-move);
+}
+
+/* Out quickly and downward, back on the settling curve — the rise is what
+   makes the return read as deliberate rather than as a light switching on. */
+.is-scrolling .pager {
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none; /* nothing invisible should still be clickable */
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+.is-scrolling .pager:focus-within {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ---------- Pager arrows ---------- */
+
+/* Up and down as a pair at the foot of the panel, rather than one at each end:
+   the top of a panel is where the header capsule floats, and an arrow tucked
+   under it would read as part of the menu. Both controls sit together, where
+   the eye already is at the end of a screen. The first panel has no up arrow
+   and the last has no down arrow, so a single arrow centres itself. */
+.pager {
+  justify-self: center;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pager a {
+  display: block;
+  padding: 0.9rem 1.1rem 1.1rem;
+  color: var(--muted);
+  transition: color var(--t-fast), transform var(--t-spring);
+}
+
+.pager svg {
+  width: 1.625rem;
+  height: 1.625rem;
+}
+
+.pager a:hover {
+  color: var(--accent);
+}
+
+.pager-down:hover {
+  transform: translateY(0.1875rem);
+}
+
+.pager-up:hover,
+.pager-top:hover {
+  transform: translateY(-0.1875rem);
+}
+
+/* The last panel's second control. One step back, or all the way out: the
+   double chevron says which by its shape and the larger size says which
+   matters more at the end of the page. It aligns on its bottom edge so the
+   extra height grows upward, away from the small arrow beside it. */
+.pager-top {
+  align-self: end;
+}
+
+.pager-top svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+/* One hint, on the opening screen only: the arrow is the page's main control,
+   and a single nudge teaches that before the visitor has scrolled. Every panel
+   after it leaves the arrows still, so the motion never becomes background
+   noise. */
+#top .pager-down svg {
+  animation: nudge 3s ease-in-out 1.5s infinite;
+}
+
+@keyframes nudge {
+  0%, 72%, 100% { transform: translateY(0); }
+  84% { transform: translateY(0.25rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #top .pager-down svg {
+    animation: none;
+  }
+}
+
+
+/* ==========================================================
+   Motion
+
+   One thing moves on its own here: a panel arriving. Its contents rise into
+   place, once, the first time that panel is reached. Revisiting one does not
+   replay it — the point is to make the move between panels feel continuous,
+   not to perform. The rail's own flourish lives with the rail, further up.
+
+   The reveal is driven by the `.js` class that js/theme.js sets before the
+   first paint, so with scripting off nothing is ever hidden waiting for an
+   observer that will not run.
+   ========================================================== */
+
+/* ---------- Arriving: a panel's contents ---------- */
+
+/* The list wrappers stay put and hand the entrance to their own items, so a
+   timeline arrives entry by entry rather than as one block. */
+.js .panel-body > *,
+.js .timeline li,
+.js .entries li {
+  opacity: 0;
+  transform: translateY(0.875rem);
+  transition:
+    opacity 0.4s ease,
+    transform var(--t-move);
+}
+
+.js .timeline,
+.js .entries {
+  opacity: 1;
+  transform: none;
+}
+
+/* The timeline's edge grows down out of the first node as the entries land */
+.js .timeline::before {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
+}
+
+.js .is-revealed .panel-body > *,
+.js .is-revealed .timeline li,
+.js .is-revealed .entries li {
+  opacity: 1;
+  transform: none;
+}
+
+.js .is-revealed .timeline::before {
+  transform: scaleY(1);
+}
+
+/* The stagger. One rhythm for every panel, so the page has a single tempo
+   rather than a different one per section. */
+.js .panel-body > *:nth-child(2),
+.js .timeline li:nth-child(2),
+.js .entries li:nth-child(2) { transition-delay: 0.08s; }
+
+.js .panel-body > *:nth-child(3),
+.js .timeline li:nth-child(3),
+.js .entries li:nth-child(3) { transition-delay: 0.16s; }
+
+.js .panel-body > *:nth-child(4),
+.js .timeline li:nth-child(4),
+.js .entries li:nth-child(4) { transition-delay: 0.24s; }
+
+.js .panel-body > *:nth-child(n + 5),
+.js .timeline li:nth-child(n + 5),
+.js .entries li:nth-child(n + 5) { transition-delay: 0.32s; }
+
+/* ---------- Switching theme ---------- */
+
+/* A theme change repaints every surface at once, which is harsh as a hard cut.
+   js/main.js sets this class for the length of the fade and then drops it, so
+   the transition cannot interfere with anything else on the page. */
+.theme-shifting body,
+.theme-shifting .site-header,
+.theme-shifting .panel,
+.theme-shifting .timeline li::before,
+.theme-shifting .timeline li:last-child::after {
+  transition:
+    background-color var(--t-fast),
+    border-color var(--t-fast),
+    color var(--t-fast);
+}
+
+/* ---------- Reduced motion ---------- */
+
+/* Nothing animates in, and nothing is left hidden waiting for an animation
+   that will not play. */
+@media (prefers-reduced-motion: reduce) {
+  .js .panel-body > *,
+  .js .timeline li,
+  .js .entries li {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .js .timeline::before {
+    transform: none;
+    transition: none;
+  }
+
+  /* Controls that come and go with the scroll are exactly the kind of movement
+     this setting is asking to be spared, so here they simply stay. */
+  .is-scrolling .pager {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .mark.is-assembling line,
+  .mark.is-assembling circle {
+    animation: none;
+  }
+}

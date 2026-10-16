@@ -1,0 +1,238 @@
+/* ==========================================================
+   Base: design tokens, reset and typography
+
+   Everything downstream is expressed in the custom properties below, so a
+   palette or scale change happens in one place.
+   ========================================================== */
+
+:root {
+  /* One neutral ramp, all of it carrying the same blue hue, plus a single
+     saturated blue for anything interactive. Because every grey is tinted
+     from the same place, nothing in the palette can clash with anything else. */
+  --paper: #ffffff;
+  --surface: #f4f7fb;  /* the quiet wash behind the header capsule */
+  --ink: #0f172a;
+  --ink-2: #47536b;
+  --muted: #8d9bb3;
+  --line: #e3e9f1;
+  --accent: #2563eb;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Type scale: exactly one size per level. The clamp() values let headings
+     grow with the viewport without any media query. */
+  --fs-h1: clamp(2.5rem, 6vw, 4.25rem);
+  --fs-h2: clamp(1.75rem, 4vw, 2.75rem);
+  --fs-h3: 1.1875rem;
+  --fs-lead: 1.25rem;
+  --fs-p: 1.0625rem;
+  --fs-small: 0.875rem; /* menu, dates, metadata */
+
+  /* Weights */
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Spacing and shapes */
+  --maxw: 48rem;  /* a single column, so the measure stays readable */
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --round: 999rem;        /* the header capsule and its pill */
+  --hairline: 0.0625rem;  /* borders and rules */
+  --stroke: 0.09375rem;   /* the timeline edge */
+  --header-h: 3.75rem;    /* capsule plus its top margin */
+
+  /* Motion. Three speeds for the whole page, and nothing outside them:
+       fast    colour and opacity — state the eye should register at once
+       move    anything that travels or resizes, on a curve that settles
+       spring  hover nudges, which overshoot a touch so they feel answered
+     Naming them is what keeps the page to one tempo: a loose duration written
+     into a single rule is how a interface starts to feel assembled. */
+  --t-fast: 160ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  --t-move: 420ms cubic-bezier(0.25, 1, 0.5, 1);
+  --t-spring: 300ms cubic-bezier(0.34, 1.5, 0.64, 1);
+
+  color-scheme: light; /* themes native UI: scrollbars, form controls */
+}
+
+/* Dark theme. Only the colours are redefined — every size, weight and shape is
+   shared, so the two themes can never drift apart. Driven by the `data-theme`
+   attribute (set by js/theme.js) rather than by `prefers-color-scheme`, because
+   the switch in the header has to be able to override the system setting. */
+:root[data-theme="dark"] {
+  --paper: #0b1120;
+  --surface: #121b2e;
+  --ink: #e8edf6;
+  --ink-2: #a3b0c7;
+  --muted: #697892;
+  --line: #1e293b;
+  --accent: #60a5fa;
+  color-scheme: dark;
+}
+
+/* ---------- Reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%; /* stop iOS inflating text in landscape */
+  scroll-behavior: smooth; /* anchor jumps glide; see the reduced-motion block */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-p);
+  line-height: 1.65;
+  color: var(--ink);
+  background-color: var(--paper);
+}
+
+svg {
+  display: block; /* drops the inline baseline gap under every icon */
+}
+
+/* Every list on the site is styled by hand, so the defaults only get in the way */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+address {
+  font-style: normal; /* used as a container, not as emphasis */
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Typography ----------
+   Rule of thumb: each kind of text has exactly one size, weight and colour.
+   Don't add loose font-size, font-weight or color declarations elsewhere —
+   reach for one of the roles below instead.
+
+   Role        Tag / class                   Size        Weight    Colour
+   Name        h1                            --fs-h1     bold      --ink
+   Section     h2                            --fs-h2     bold      --ink
+   Entry       h3 (role, degree, title)      --fs-h3     semibold  --ink
+   Lead        .lead                         --fs-lead   regular   --ink-2
+   Body        p                             --fs-p      regular   --ink
+   Secondary   supporting p (org, venue)     --fs-p      regular   --ink-2
+   Date        .date                         --fs-small  regular   --muted
+   Interface   menu, links row               --fs-small  medium    --ink-2
+   Link        a                             inherit     inherit   --accent
+*/
+
+h1,
+h2,
+h3 {
+  margin: 0; /* vertical rhythm comes from the layout, not from headings */
+  line-height: 1.15;
+  font-weight: var(--fw-semibold);
+  text-wrap: balance; /* avoids a single orphaned word on the last line */
+}
+
+h1,
+h2 {
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.025em; /* large type needs tighter tracking */
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  line-height: 1.04;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+p {
+  margin: 0 0 0.9rem;
+}
+
+p:last-child {
+  margin-bottom: 0; /* no trailing gap at the end of a block */
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.date {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: var(--hairline);
+  transition: text-decoration-thickness var(--t-fast);
+}
+
+/* Thickening the underline on hover keeps the link in place — a colour or
+   size change would reflow or flicker */
+a:hover {
+  text-decoration-thickness: 0.125rem;
+}
+
+/* Focus ring for keyboard users only: `:focus-visible` leaves mouse clicks
+   unringed, so the affordance appears exactly when it is useful */
+:focus-visible {
+  outline: 0.125rem solid var(--accent);
+  outline-offset: 0.1875rem;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Skip link: parked just off the top of the viewport and slid into place when
+   focused, so a keyboard visitor can jump past the navigation */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -3rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 0.5rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Respect the system "reduce motion" setting: instant anchor jumps, and
+   transitions collapsed to a near-zero duration rather than removed outright
+   (`0s` would stop transitionend from firing in some browsers) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
