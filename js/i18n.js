@@ -155,7 +155,7 @@
         'S. Bustamante-Larriet, D. Martín-Fernández, Á. García-Fernández, D. Fernández-Álvarez, J. E. Labra-Gayo. Poster and demo presented at [ESWC 2026](eswc), the European Semantic Web Conference, Dubrovnik, Croatia.',
       'pub.biohack.date': 'Dec 2025',
       'pub.biohack.meta':
-        'J. E. Labra-Gayo and others, with S. Bustamante-Larriet. Report on the project carried out at the [DBCLS BioHackathon 2025](biohackathon), Mie, Japan, published on BioHackrXiv.',
+        'J. E. Labra-Gayo, Y. Yamamoto, A. R. Kinjo, A. Waagmeester, J. Millán Acosta, S. Kawashima, Y. Okabeppu, J. Koblitz, S. Bustamante-Larriet, D. Fernández-Álvarez. Report on the project carried out at the [DBCLS BioHackathon 2025](biohackathon), Mie, Japan, published on BioHackrXiv.',
       'pub.kcap.date': 'Dec 2025',
       'pub.kcap.meta':
         'J. E. Labra-Gayo, D. Tomaszuk, D. Martín-Fernández, S. Bustamante-Larriet, Á. García-Fernández, D. Fernández-Álvarez. Poster and demo presented at [K-CAP 2025](kcap), the Knowledge Capture Conference, Dayton, Ohio.',
@@ -265,7 +265,7 @@
         'S. Bustamante-Larriet, D. Martín-Fernández, Á. García-Fernández, D. Fernández-Álvarez, J. E. Labra-Gayo. Póster y demo presentados en [ESWC 2026](eswc), la Conferencia Europea de Web Semántica, Dubrovnik, Croacia.',
       'pub.biohack.date': 'dic. 2025',
       'pub.biohack.meta':
-        'J. E. Labra-Gayo y otros, con S. Bustamante-Larriet. Informe del proyecto desarrollado en el [DBCLS BioHackathon 2025](biohackathon), Mie, Japón, publicado en BioHackrXiv.',
+        'J. E. Labra-Gayo, Y. Yamamoto, A. R. Kinjo, A. Waagmeester, J. Millán Acosta, S. Kawashima, Y. Okabeppu, J. Koblitz, S. Bustamante-Larriet, D. Fernández-Álvarez. Informe del proyecto desarrollado en el [DBCLS BioHackathon 2025](biohackathon), Mie, Japón, publicado en BioHackrXiv.',
       'pub.kcap.date': 'dic. 2025',
       'pub.kcap.meta':
         'J. E. Labra-Gayo, D. Tomaszuk, D. Martín-Fernández, S. Bustamante-Larriet, Á. García-Fernández, D. Fernández-Álvarez. Póster y demo presentados en [K-CAP 2025](kcap), la Conferencia de Captura de Conocimiento, Dayton, Ohio.',

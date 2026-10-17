@@ -196,6 +196,14 @@
   margin-top: 0.15rem;
 }
 
+/* Paper and project titles are long enough to wrap, and a wrap that leaves one
+   word alone on the second line reads as a mistake. `balance` evens the lines
+   out instead; browsers that do not know it wrap as they always did. */
+.entries h3,
+.timeline h3 {
+  text-wrap: balance;
+}
+
 .entries p:not([class]) {
   margin-top: 0.25rem;
 }
