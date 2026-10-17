@@ -17,6 +17,27 @@
   <meta name="author" content="Samuel Bustamante-Larriet">
 
   <!--
+    What a link to this page looks like when it is pasted into LinkedIn, Slack
+    or a chat. Deliberately left out of the i18n pass above: the crawlers that
+    read these tags never run scripts, so whatever is written here is what they
+    will always see — English, the fallback language. The URLs are absolute
+    because a crawler has no page to resolve a relative one against, and the
+    portrait is square, which is why the Twitter card is a `summary` (square
+    thumbnail) rather than a `summary_large_image` that would crop it to a
+    letterbox.
+  -->
+  <link rel="canonical" href="https://samuelbl.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://samuelbl.dev/">
+  <meta property="og:site_name" content="Samuel Bustamante-Larriet">
+  <meta property="og:title" content="Samuel Bustamante-Larriet — Semantic Web &amp; Knowledge Graphs">
+  <meta property="og:description"
+        content="PhD student in Computer Science at the University of Oviedo, working on knowledge graphs and linked data.">
+  <meta property="og:image" content="https://samuelbl.dev/img/portrait.jpg">
+  <meta property="og:image:alt" content="Portrait of Samuel Bustamante-Larriet">
+  <meta name="twitter:card" content="summary">
+
+  <!--
     The tab icon is the same graph that marks the current section in the menu,
     drawn from img/mark.svg so the one shape serves both. The PNG beside it is
     the fallback for browsers that will not take an SVG icon; the SVG is
