@@ -67,7 +67,7 @@
   // leaves the markup's own text in place rather than blanking the element.
   const DICT = {
     en: {
-      'meta.title': 'Samuel Bustamante-Larriet — Semantic Web & Knowledge Graphs',
+      'meta.title': 'Samuel Bustamante-Larriet',
       'meta.description':
         'Personal site of Samuel Bustamante-Larriet: PhD student in Computer Science at the University of Oviedo, working on knowledge graphs and linked data.',
 
@@ -181,7 +181,7 @@
     },
 
     es: {
-      'meta.title': 'Samuel Bustamante-Larriet — Web Semántica y Grafos de Conocimiento',
+      'meta.title': 'Samuel Bustamante-Larriet',
       'meta.description':
         'Web personal de Samuel Bustamante-Larriet: doctorando en Informática por la Universidad de Oviedo, trabajando en grafos de conocimiento y datos enlazados.',
 
