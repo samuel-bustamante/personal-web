@@ -49,6 +49,7 @@
     // from now; all of them publish in English only.
     elmke: 'https://sites.google.com/view/elmke/2026',
     dmkg: 'https://dmkg-workshop.github.io/2026/',
+    glow: 'https://glow-workshop.github.io/iswc2026/',
     iswc: 'https://iswc2026.semanticweb.org/',
     database: 'https://academic.oup.com/database',
     eswc: 'https://2026.eswc-conferences.org/',
@@ -147,6 +148,9 @@
       'pub.dmkg.date': 'Oct 2026',
       'pub.dmkg.meta':
         'Á. García-Fernández, S. Bustamante-Larriet, J. E. Labra-Gayo, O. Corcho-García. Paper presented at [DMKG 2026](dmkg), the workshop on data management for knowledge graphs, co-located with [ISWC 2026](iswc), the International Semantic Web Conference, in Bari, Italy.',
+      'pub.glow.date': 'Oct 2026',
+      'pub.glow.meta':
+        'A. Vigani, S. Bustamante-Larriet, N. Hosseini-Kivanani, J. E. Labra-Gayo, A. Rula. Paper presented at [GLOW 2026](glow), the workshop on graph-enhanced language models for trustworthy web data management, co-located with [ISWC 2026](iswc), the International Semantic Web Conference, in Bari, Italy.',
       'pub.togomcp.date': 'Jul 2026',
       'pub.togomcp.meta':
         'A. R. Kinjo, Y. Yamamoto, S. Bustamante-Larriet, J.-E. Labra-Gayo, T. Fujisawa. Research article in [Database](database), the Oxford University Press journal of biological databases and curation. Open access.',
@@ -257,6 +261,9 @@
       'pub.dmkg.date': 'oct. 2026',
       'pub.dmkg.meta':
         'Á. García-Fernández, S. Bustamante-Larriet, J. E. Labra-Gayo, O. Corcho-García. Artículo presentado en [DMKG 2026](dmkg), el workshop sobre gestión de datos para grafos de conocimiento, celebrado junto a [ISWC 2026](iswc), la Conferencia Internacional de Web Semántica, en Bari, Italia.',
+      'pub.glow.date': 'oct. 2026',
+      'pub.glow.meta':
+        'A. Vigani, S. Bustamante-Larriet, N. Hosseini-Kivanani, J. E. Labra-Gayo, A. Rula. Artículo presentado en [GLOW 2026](glow), el workshop sobre modelos de lenguaje potenciados con grafos para la gestión fiable de datos en la web, celebrado junto a [ISWC 2026](iswc), la Conferencia Internacional de Web Semántica, en Bari, Italia.',
       'pub.togomcp.date': 'jul. 2026',
       'pub.togomcp.meta':
         'A. R. Kinjo, Y. Yamamoto, S. Bustamante-Larriet, J.-E. Labra-Gayo, T. Fujisawa. Artículo de investigación en [Database](database), la revista de bases de datos biológicas y curación de Oxford University Press. Acceso abierto.',
