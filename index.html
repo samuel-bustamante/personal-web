@@ -398,7 +398,9 @@
        or "K-CAP" tells a visitor from outside the field nothing on its own.
        Where a paper has a public version of record the row points at it (DOI,
        publisher); where the only copy is ours it points at the PDF in
-       papers/, named <subject>_<VENUE><yy>.pdf.
+       papers/, named <subject>_<VENUE><yy>.pdf. A paper that won something
+       says so beside its date, and the certificate sits in awards/ under the
+       same file name as the paper it was awarded for.
        ========================================================= -->
   <section class="panel" id="publications" data-nav="publications">
     <div class="panel-body">
@@ -439,7 +441,14 @@
           </p>
         </li>
         <li>
-          <p class="date" data-i18n="pub.glow.date">Oct 2026</p>
+          <!-- The award rides the date line rather than the title: the heading
+               stays the paper's own words, and the badge lands where the eye
+               already starts the entry. -->
+          <p class="date">
+            <span data-i18n="pub.glow.date">Oct 2026</span>
+            <span class="award"
+                  data-i18n="pub.glow.award">Best Paper Runner-Up Award</span>
+          </p>
           <h3>A Provenance-Aware Agentic Framework for Knowledge Graph
               Augmentation Using RDF 1.2 and SHACL</h3>
           <p data-i18n-rich="pub.glow.meta">
@@ -453,6 +462,8 @@
           </p>
           <p class="links">
             <a href="papers/mcp_kg-augmentation_GLOW26.pdf">PDF</a>
+            <a href="awards/mcp_kg-augmentation_GLOW26.pdf"
+               data-i18n="link.certificate">Award certificate</a>
           </p>
         </li>
         <li>

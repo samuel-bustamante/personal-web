@@ -208,6 +208,24 @@
   margin-top: 0.25rem;
 }
 
+/* What a paper won, set beside its date. The same capsule the header menu is
+   drawn as — hairline outline, fully round — so the one badge on the page
+   reads as part of the furniture rather than as a sticker from elsewhere. It
+   borrows the interface role's weight and colour, which lifts it out of the
+   muted date it sits next to without inventing a type role for one word. */
+.award {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.5rem;
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--round);
+  font-weight: var(--fw-medium);
+  color: var(--ink-2);
+  /* The name of one award, so it breaks away from the date as a whole rather
+     than splitting across two lines inside its own outline. */
+  white-space: nowrap;
+}
+
 /* ---------- Link rows ---------- */
 
 /* Used under an entry and, larger, as the whole of the contact panel */

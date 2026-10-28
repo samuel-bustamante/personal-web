@@ -140,8 +140,9 @@
       'edu.bsc.where': 'University of Oviedo, EII',
 
       'pub.title': 'Papers',
-      // Only the dates and the line under each title: a paper's own title is
-      // not translated, so it stays in the markup with no key of its own.
+      // Only the dates, the award badges and the line under each title: a
+      // paper's own title is not translated, so it stays in the markup with no
+      // key of its own.
       'pub.elmke.date': 'Oct 2026',
       'pub.elmke.meta':
         'S. Bustamante-Larriet, Á. García-Fernández, J. E. Labra-Gayo. Paper presented at [ELMKE 2026](elmke), the workshop on the evaluation of language models in knowledge engineering, co-located with [ISWC 2026](iswc), the International Semantic Web Conference, in Bari, Italy.',
@@ -149,6 +150,7 @@
       'pub.dmkg.meta':
         'Á. García-Fernández, S. Bustamante-Larriet, J. E. Labra-Gayo, O. Corcho-García. Paper presented at [DMKG 2026](dmkg), the workshop on data management for knowledge graphs, co-located with [ISWC 2026](iswc), the International Semantic Web Conference, in Bari, Italy.',
       'pub.glow.date': 'Oct 2026',
+      'pub.glow.award': 'Best Paper Runner-Up Award',
       'pub.glow.meta':
         'A. Vigani, S. Bustamante-Larriet, N. Hosseini-Kivanani, J. E. Labra-Gayo, A. Rula. Paper presented at [GLOW 2026](glow), the workshop on graph-enhanced language models for trustworthy web data management, co-located with [ISWC 2026](iswc), the International Semantic Web Conference, in Bari, Italy.',
       'pub.togomcp.date': 'Jul 2026',
@@ -173,6 +175,7 @@
 
       'link.site': 'Website',
       'link.code': 'Code',
+      'link.certificate': 'Award certificate',
 
       'contact.title': 'Get in touch',
       'contact.lead':
@@ -262,6 +265,7 @@
       'pub.dmkg.meta':
         'Á. García-Fernández, S. Bustamante-Larriet, J. E. Labra-Gayo, O. Corcho-García. Artículo presentado en [DMKG 2026](dmkg), el workshop sobre gestión de datos para grafos de conocimiento, celebrado junto a [ISWC 2026](iswc), la Conferencia Internacional de Web Semántica, en Bari, Italia.',
       'pub.glow.date': 'oct. 2026',
+      'pub.glow.award': 'Premio al Segundo Mejor Artículo',
       'pub.glow.meta':
         'A. Vigani, S. Bustamante-Larriet, N. Hosseini-Kivanani, J. E. Labra-Gayo, A. Rula. Artículo presentado en [GLOW 2026](glow), el workshop sobre modelos de lenguaje potenciados con grafos para la gestión fiable de datos en la web, celebrado junto a [ISWC 2026](iswc), la Conferencia Internacional de Web Semántica, en Bari, Italia.',
       'pub.togomcp.date': 'jul. 2026',
@@ -284,6 +288,7 @@
 
       'link.site': 'Web',
       'link.code': 'Código',
+      'link.certificate': 'Certificado premio',
 
       'contact.title': 'Hablemos',
       'contact.lead':
